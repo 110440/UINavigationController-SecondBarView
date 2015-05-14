@@ -27,4 +27,4 @@ When Second Bar View showed or hided, we also have to method will be called. if 
 ````
 
 ###Demo
-<img src="https://github.com/Jameson-zxm/UINavigationController-SecondBarView/blob/master/demo.gif" width="400" height="568" />
+<img src="https://github.com/Jameson-zxm/UINavigationController-SecondBarView/blob/master/demo.gif" width="375" height="668" />
