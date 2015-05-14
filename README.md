@@ -1,5 +1,5 @@
 # UINavigationController-SecondBarView
-This category is used for add a custom view below UINavigationController's NavigationBar.Typical a second navibar or progressView
+This category is used for add a custom view below UINavigationController's NavigationBar.Typical a navibar or a progressView
 
 ## How to use
 ```
@@ -25,3 +25,6 @@ When Second Bar View showed or hided, we also have to method will be called. if 
 ````
 - (void) secondBarDidHide;
 ````
+
+###Demo
+<img src="https://github.com/Jameson-zxm/UINavigationController-SecondBarView/blob/master/demo.gif" width="400" height="568" />
