@@ -9,7 +9,8 @@
 #import "UINavigationController+SeconBarView.h"
 #import <objc/runtime.h>
 
-static char kSecondBarViewHeightKey, kSecondBarViewKey;
+static char kSecondBarViewHeightKey;
+static char kSecondBarViewKey;
 
 @implementation UINavigationController (SecondBarView)
 
@@ -37,6 +38,7 @@ static char kSecondBarViewHeightKey, kSecondBarViewKey;
     
     [v removeFromSuperview];
     
+    secondBarView.hidden = true;
     UIView* origBar = self.navigationBar;
     
     [secondBarView setTranslatesAutoresizingMaskIntoConstraints:false];
@@ -56,14 +58,14 @@ static char kSecondBarViewHeightKey, kSecondBarViewKey;
     [self.view addConstraints:vCS];
     
     [self.view updateConstraints];
-    
-    self.secondBarView.hidden = YES;
 
     objc_setAssociatedObject(self, &kSecondBarViewKey, secondBarView, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (void) showSecondBarView:(BOOL)animated {
-    if (!self.secondBarView.isHidden) {
+    NSLog(@"%d", !self.secondBarView.isHidden);
+    
+    if (self.secondBarView == nil || !self.secondBarView.isHidden) {
         return;
     }
     
@@ -85,7 +87,7 @@ static char kSecondBarViewHeightKey, kSecondBarViewKey;
 }
 
 - (void) hideSecondBarView:(BOOL)animated {
-    if (self.secondBarView.isHidden) {
+    if (self.secondBarView == nil || self.secondBarView.isHidden) {
         return;
     }
 
