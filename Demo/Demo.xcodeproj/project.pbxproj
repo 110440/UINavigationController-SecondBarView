@@ -15,7 +15,6 @@
 		8E0089671B04710300E227D0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E0089651B04710300E227D0 /* LaunchScreen.xib */; };
 		8E0089731B04710300E227D0 /* DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E0089721B04710300E227D0 /* DemoTests.m */; };
 		8E00897F1B04715100E227D0 /* UINavigationController+SeconBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E00897E1B04715100E227D0 /* UINavigationController+SeconBarView.m */; };
-		8E9D3B351B048C6B005AAF00 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 8E9D3B341B048C6B005AAF00 /* demo.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +43,6 @@
 		8E0089721B04710300E227D0 /* DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoTests.m; sourceTree = "<group>"; };
 		8E00897D1B04715100E227D0 /* UINavigationController+SeconBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SeconBarView.h"; sourceTree = "<group>"; };
 		8E00897E1B04715100E227D0 /* UINavigationController+SeconBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+SeconBarView.m"; sourceTree = "<group>"; };
-		8E9D3B341B048C6B005AAF00 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +84,6 @@
 		8E0089551B04710300E227D0 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				8E9D3B341B048C6B005AAF00 /* demo.gif */,
 				8E00897C1B04715100E227D0 /* UINavigationContr+SecondBarView */,
 				8E00895A1B04710300E227D0 /* AppDelegate.h */,
 				8E00895B1B04710300E227D0 /* AppDelegate.m */,
@@ -217,7 +214,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E0089621B04710300E227D0 /* Main.storyboard in Resources */,
-				8E9D3B351B048C6B005AAF00 /* demo.gif in Resources */,
 				8E0089671B04710300E227D0 /* LaunchScreen.xib in Resources */,
 				8E0089641B04710300E227D0 /* Images.xcassets in Resources */,
 			);
