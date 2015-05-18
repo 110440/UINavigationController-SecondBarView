@@ -13,7 +13,7 @@ Drag UINavigationContr+SecondBarView to your project
 [self.navigationController setSecondBarView:view];.
 ```
 ```
-[self.navigationController showSecondBarView:false];
+[self.navigationController showSecondBarView];
 ```
 
 When Second Bar View showed or hided, we also have two method will be called. if you care about that, you should override it in your viewcontroller.
