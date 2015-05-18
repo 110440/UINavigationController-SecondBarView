@@ -43,7 +43,7 @@
     
     [self.navigationController setSecondBarView:bar];
     
-    [self.navigationController showSecondBarView:false];
+    [self.navigationController showSecondBarView];
 }
 
 - (IBAction)showProgressView:(id)sender {
@@ -54,7 +54,7 @@
     
     self.navigationController.secondBarView = _prg;
     
-    [self.navigationController showSecondBarView:true];
+    [self.navigationController showSecondBarView];
 }
 
 - (void) update {
@@ -62,7 +62,7 @@
 }
 
 - (IBAction)hide:(id)sender {
-    [self.navigationController hideSecondBarView:true];
+    [self.navigationController hideSecondBarView];
 }
 
 - (void) secondBarDidShow {

@@ -36,8 +36,11 @@ static char kSecondBarViewKey;
 - (void) setSecondBarView:(UIView *)secondBarView {
     id v = objc_getAssociatedObject(self, &kSecondBarViewKey);
     
-    [v removeFromSuperview];
-    
+    if (v != nil) {
+        [self.topViewController secondBarDidHide];
+        [v removeFromSuperview];
+    }
+
     secondBarView.hidden = true;
     UIView* origBar = self.navigationBar;
     
@@ -62,48 +65,23 @@ static char kSecondBarViewKey;
     objc_setAssociatedObject(self, &kSecondBarViewKey, secondBarView, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (void) showSecondBarView:(BOOL)animated {
-    NSLog(@"%d", !self.secondBarView.isHidden);
-    
+- (void) showSecondBarView {
     if (self.secondBarView == nil || !self.secondBarView.isHidden) {
         return;
     }
     
-    if (animated) {
-        self.secondBarView.alpha = 0;
-        [self.secondBarView setHidden:NO];
-        
-        [UIView animateWithDuration:0.2 animations:^{
-            self.secondBarView.alpha = 1;
-        }completion:^(BOOL finished) {
-            if (finished) {
-                [self.topViewController secondBarDidShow];
-            }
-        }];
-    } else {
-        [self.secondBarView setHidden:NO];
-        [self.topViewController secondBarDidShow];
-    }
+    self.secondBarView.hidden = false;
+    [self.topViewController secondBarDidShow];
 }
 
-- (void) hideSecondBarView:(BOOL)animated {
+- (void) hideSecondBarView {
     if (self.secondBarView == nil || self.secondBarView.isHidden) {
         return;
     }
 
-    if (animated) {
-        [UIView animateWithDuration:0.2 animations:^{
-            self.secondBarView.alpha = 0;
-        }completion:^(BOOL finished) {
-            if (finished) {
-                [self.secondBarView setHidden:YES];
-                [self.topViewController secondBarDidHide];
-            }
-        }];
-    } else {
-        [self.secondBarView setHidden:YES];
-        [self.topViewController secondBarDidHide];
-    }
+    self.secondBarView.hidden = true;
+    
+    [self.topViewController secondBarDidHide];
 }
 
 - (void) removeSecondBarView {

@@ -22,20 +22,16 @@
 
 /**
  *
- *
- *  @param animated
  */
-- (void) showSecondBarView:(BOOL) animated;
+- (void) showSecondBarView;
 
 /**
  *
- *
- *  @param animated
  */
-- (void) hideSecondBarView:(BOOL) animated;
+- (void) hideSecondBarView;
 
 /**
- *  pari function of resetSecondBarView
+ *  pair function of resetSecondBarView
  */
 - (void) removeSecondBarView;
 
