@@ -36,10 +36,7 @@ static char kSecondBarViewKey;
 - (void) setSecondBarView:(UIView *)secondBarView {
     id v = objc_getAssociatedObject(self, &kSecondBarViewKey);
     
-    if (v != nil) {
-        [self.topViewController secondBarDidHide];
-        [v removeFromSuperview];
-    }
+    [v removeFromSuperview];
 
     secondBarView.hidden = true;
     UIView* origBar = self.navigationBar;
