@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "UINavigationController+SeconBarView.h"
+#import <objc/runtime.h>
 
 @interface ViewController ()
 @property (retain, nonatomic) UIProgressView* prg;
@@ -41,8 +42,12 @@
     [bar pushNavigationItem:item2 animated:false];
     [self.navigationController setSecondBarViewHeight:40];
     
+//    UIView *help = [UIView new];
+//    help.backgroundColor = [UIColor redColor];
+//    [help addSubview:bar];
+//    bar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+
     [self.navigationController setSecondBarView:bar];
-    
     [self.navigationController showSecondBarView];
 }
 

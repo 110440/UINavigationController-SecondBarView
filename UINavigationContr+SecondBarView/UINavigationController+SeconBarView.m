@@ -11,8 +11,45 @@
 
 static char kSecondBarViewHeightKey;
 static char kSecondBarViewKey;
+static char kContainerViewKey;
+
+@interface UINavigationController ()
+@property (retain, nonatomic) UIView *container;
+@end
 
 @implementation UINavigationController (SecondBarView)
+
+- (UIView*) container {
+    UIView* c = objc_getAssociatedObject(self, &kContainerViewKey);
+    
+    if (c == nil) {
+        c = [UIView new];
+        c.clipsToBounds = true;
+        c.backgroundColor = [UIColor clearColor];
+        
+        UIView* origBar = self.navigationBar;
+        
+        [c setTranslatesAutoresizingMaskIntoConstraints:false];
+        [self.view addSubview:c];
+        
+        NSArray* hCS = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[c]-0-|"
+                                                               options:0
+                                                               metrics:nil
+                                                                 views:NSDictionaryOfVariableBindings(c)];
+        
+        NSArray* vCS = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[origBar]-0-[c(40)]"
+                                                               options:0
+                                                               metrics:@{@"height": [NSNumber numberWithFloat:self.secondBarViewHeight]}
+                                                                 views:NSDictionaryOfVariableBindings(origBar, c)];
+        
+        [self.view addConstraints:hCS];
+        [self.view addConstraints:vCS];
+        
+        [self.view updateConstraints];
+    }
+    
+    return c;
+}
 
 - (CGFloat) secondBarViewHeight {
     NSNumber* h = objc_getAssociatedObject(self, &kSecondBarViewHeightKey);
@@ -36,49 +73,54 @@ static char kSecondBarViewKey;
 - (void) setSecondBarView:(UIView *)secondBarView {
     id v = objc_getAssociatedObject(self, &kSecondBarViewKey);
     
-    [v removeFromSuperview];
-
-    secondBarView.hidden = true;
-    UIView* origBar = self.navigationBar;
+    if (v == secondBarView) {
+        return;
+    }
     
-    [secondBarView setTranslatesAutoresizingMaskIntoConstraints:false];
-    [self.view addSubview:secondBarView];
+    if (v != nil) {
+        [v removeFromSuperview];
+        [self.topViewController secondBarDidHide];
+    }
     
-    NSArray* hCS = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[secondBarView]-0-|"
-                                                           options:0
-                                                           metrics:nil
-                                                             views:NSDictionaryOfVariableBindings(secondBarView)];
+    UIView* c = self.container;
     
-    NSArray* vCS = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[origBar]-0-[secondBarView(height)]"
-                                                           options:0
-                                                           metrics:@{@"height": [NSNumber numberWithFloat:self.secondBarViewHeight]}
-                                                             views:NSDictionaryOfVariableBindings(origBar, secondBarView)];
+    [self.container addSubview:secondBarView];
+    secondBarView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    secondBarView.frame = CGRectMake(0, -1 * self.secondBarViewHeight, c.frame.size.width, self.secondBarViewHeight);
     
-    [self.view addConstraints:hCS];
-    [self.view addConstraints:vCS];
-    
-    [self.view updateConstraints];
-
     objc_setAssociatedObject(self, &kSecondBarViewKey, secondBarView, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (void) showSecondBarView {
-    if (self.secondBarView == nil || !self.secondBarView.isHidden) {
+    // haven't setted or is showing
+    if (self.secondBarView == nil || self.secondBarView.frame.origin.y == 0) {
         return;
     }
     
-    self.secondBarView.hidden = false;
-    [self.topViewController secondBarDidShow];
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect rt = self.secondBarView.frame;
+        rt.origin.y = 0;
+        self.secondBarView.frame = rt;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.topViewController secondBarDidShow];
+        }
+    }];
 }
 
 - (void) hideSecondBarView {
-    if (self.secondBarView == nil || self.secondBarView.isHidden) {
+    // haven't setted or is hidden now
+    if (self.secondBarView == nil || (self.secondBarView.frame.origin.y < 0)) {
         return;
     }
-
-    self.secondBarView.hidden = true;
     
-    [self.topViewController secondBarDidHide];
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect rt = self.secondBarView.frame;
+        rt.origin.y = -1 * rt.size.height;
+        self.secondBarView.frame = rt;
+    } completion:^(BOOL finished) {
+        [self.topViewController secondBarDidHide];
+    }];
 }
 
 - (void) removeSecondBarView {
