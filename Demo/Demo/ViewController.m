@@ -12,13 +12,15 @@
 
 @interface ViewController ()
 @property (retain, nonatomic) UIProgressView* prg;
+@property (assign, nonatomic) NSInteger originTop;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.originTop = self.tableView.contentInset.top;
+
     _prg = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
 }
 
@@ -41,14 +43,9 @@
     
     [bar pushNavigationItem:item2 animated:false];
     [self.navigationController setSecondBarViewHeight:40];
-    
-//    UIView *help = [UIView new];
-//    help.backgroundColor = [UIColor redColor];
-//    [help addSubview:bar];
-//    bar.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
 
     [self.navigationController setSecondBarView:bar];
-    [self.navigationController showSecondBarView];
+    [self.navigationController showSecondBarView:true];
 }
 
 - (IBAction)showProgressView:(id)sender {
@@ -59,7 +56,7 @@
     
     self.navigationController.secondBarView = _prg;
     
-    [self.navigationController showSecondBarView];
+    [self.navigationController showSecondBarView:true];
 }
 
 - (void) update {
@@ -67,15 +64,15 @@
 }
 
 - (IBAction)hide:(id)sender {
-    [self.navigationController hideSecondBarView];
+    [self.navigationController hideSecondBarView:true];
 }
 
-- (void) secondBarDidShow {
-    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top + self.navigationController.secondBarViewHeight, 0, 0, 0);
+- (void) secondBarDidShow:(CGFloat) height {
+    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top + height, 0, 0, 0);
 }
 
-- (void) secondBarDidHide {
-        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top - self.navigationController.secondBarViewHeight, 0, 0, 0);
+- (void) secondBarDidHide:(CGFloat) height {
+        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top - height, 0, 0, 0);
 }
 
 @end

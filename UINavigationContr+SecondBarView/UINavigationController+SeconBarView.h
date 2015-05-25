@@ -23,12 +23,12 @@
 /**
  *
  */
-- (void) showSecondBarView;
+- (void) showSecondBarView:(BOOL) animation;
 
 /**
  *
  */
-- (void) hideSecondBarView;
+- (void) hideSecondBarView:(BOOL) animation;
 
 /**
  *  pair function of resetSecondBarView
@@ -46,7 +46,7 @@
     
 }
 
-- (void) secondBarDidShow;
-- (void) secondBarDidHide;
+- (void) secondBarDidShow:(CGFloat) height;
+- (void) secondBarDidHide:(CGFloat) height;
 
 @end
