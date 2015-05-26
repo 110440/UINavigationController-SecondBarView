@@ -10,6 +10,8 @@
 
 @interface UINavigationController (SecondBarView)
 
+@property (readonly, getter=isSecondBarViewShowing) BOOL secondBarViewShowing;
+
 /**
  * Defualt value is 40
  */
@@ -30,15 +32,15 @@
  */
 - (void) hideSecondBarView:(BOOL) animation;
 
-/**
- *  pair function of resetSecondBarView
- */
-- (void) removeSecondBarView;
-
-/**
- *
- */
-- (void) resetSecondBarView;
+///**
+// *  pair function of resetSecondBarView
+// */
+//- (void) removeSecondBarView;
+//
+///**
+// *
+// */
+//- (void) resetSecondBarView;
 @end
 
 
@@ -47,6 +49,8 @@
 }
 
 - (void) secondBarDidShow:(CGFloat) height;
+//- (void) secondBarWillShow:(CGFloat) height;
+//- (void) secondBarWillHide:(CGFloat) height;
 - (void) secondBarDidHide:(CGFloat) height;
 
 @end

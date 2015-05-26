@@ -12,14 +12,31 @@
 
 @interface ViewController ()
 @property (retain, nonatomic) UIProgressView* prg;
-@property (assign, nonatomic) NSInteger originTop;
+@property (retain, nonatomic) UINavigationBar* bar;
 @end
 
 @implementation ViewController
 
+- (UINavigationBar*) bar {
+    if (_bar == nil) {
+        _bar = [UINavigationBar new];
+        UINavigationItem* item2 = [UINavigationItem new];
+        
+        UISegmentedControl* segment = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 160, 30)];
+        
+        [segment insertSegmentWithTitle:@"1" atIndex:0 animated:false];
+        [segment insertSegmentWithTitle:@"2" atIndex:0 animated:false];
+        segment.selectedSegmentIndex = 0;
+        item2.titleView = segment;
+        
+        [_bar pushNavigationItem:item2 animated:false];
+    }
+    
+    return _bar;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.originTop = self.tableView.contentInset.top;
 
     _prg = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
 }
@@ -30,25 +47,21 @@
 }
 
 - (IBAction)showSecondNaviBar:(id)sender {
-    UINavigationBar* bar = [UINavigationBar new];
-    
-    UINavigationItem* item2 = [UINavigationItem new];
-    
-    UISegmentedControl* segment = [[UISegmentedControl alloc] initWithFrame:CGRectMake(0, 0, 160, 30)];
-    
-    [segment insertSegmentWithTitle:@"1" atIndex:0 animated:false];
-    [segment insertSegmentWithTitle:@"2" atIndex:0 animated:false];
-    segment.selectedSegmentIndex = 0;
-    item2.titleView = segment;
-    
-    [bar pushNavigationItem:item2 animated:false];
+    if (self.navigationController.secondBarView == self.prg && self.navigationController.isSecondBarViewShowing) {
+        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top - 4, 0, 0, 0);
+    }
+
     [self.navigationController setSecondBarViewHeight:40];
 
-    [self.navigationController setSecondBarView:bar];
+    [self.navigationController setSecondBarView:self.bar];
     [self.navigationController showSecondBarView:true];
 }
 
 - (IBAction)showProgressView:(id)sender {
+    if (self.navigationController.secondBarView == self.bar && self.navigationController.isSecondBarViewShowing) {
+        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top - 40, 0, 0, 0);
+    }
+    
     self.navigationController.secondBarViewHeight = 4;
     _prg.progress = 0.1;
     
@@ -68,11 +81,35 @@
 }
 
 - (void) secondBarDidShow:(CGFloat) height {
-    self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top + height, 0, 0, 0);
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top + height, 0, 0, 0);
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 - (void) secondBarDidHide:(CGFloat) height {
+    [UIView animateWithDuration:0.3 animations:^{
         self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top - height, 0, 0, 0);
+    } completion:^(BOOL finished) {
+
+    }];
 }
+//
+//- (void) secondBarWillHide:(CGFloat)height {
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top - height, 0, 0, 0);
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+//}
+//
+//- (void) secondBarWillShow:(CGFloat)height {
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.tableView.contentInset = UIEdgeInsetsMake(self.tableView.contentInset.top + height, 0, 0, 0);
+//    } completion:^(BOOL finished) {
+//        
+//    }];
+//}
 
 @end

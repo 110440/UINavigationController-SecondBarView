@@ -61,12 +61,7 @@ static char kContainerViewKey;
         return;
     }
     
-    if (v != nil) {
-        if (v.frame.origin.y == 0) {
-            [self.topViewController secondBarDidHide:v.frame.size.height];
-        }
-        [v removeFromSuperview];
-    }
+    [v removeFromSuperview];
 
     [self.container addSubview:secondBarView];
     secondBarView.frame = CGRectMake(0, -1 * self.secondBarViewHeight, self.view.frame.size.width, self.secondBarViewHeight);
@@ -90,16 +85,16 @@ static char kContainerViewKey;
             self.secondBarView.frame = rt;
         } completion:^(BOOL finished) {
             if (finished) {
-                [self.topViewController secondBarDidShow:self.secondBarView.frame.size.height];
+                
             }
         }];
     } else {
         CGRect rt = self.secondBarView.frame;
         rt.origin.y = 0;
         self.secondBarView.frame = rt;
-        [self.topViewController secondBarDidShow:self.secondBarView.frame.size.height];
     }
-    
+
+    [self.topViewController secondBarDidShow:self.secondBarViewHeight];
 }
 
 - (void) hideSecondBarView:(BOOL) animation {
@@ -107,7 +102,7 @@ static char kContainerViewKey;
     if (self.secondBarView == nil || (self.secondBarView.frame.origin.y < 0)) {
         return;
     }
-    
+
     if (animation) {
         [UIView animateWithDuration:0.3 animations:^{
             CGRect rt = self.secondBarView.frame;
@@ -115,36 +110,51 @@ static char kContainerViewKey;
             self.secondBarView.frame = rt;
         } completion:^(BOOL finished) {
             [self.container removeFromSuperview];
-            [self.topViewController secondBarDidHide:self.secondBarView.frame.size.height];
         }];
     } else {
         CGRect rt = self.secondBarView.frame;
         rt.origin.y = -1 * rt.size.height;
         self.secondBarView.frame = rt;
         [self.container removeFromSuperview];
-        [self.topViewController secondBarDidHide:self.secondBarView.frame.size.height];
     }
-}
-
-- (void) removeSecondBarView {
-    [self.secondBarView removeFromSuperview];
-}
-
-- (void) resetSecondBarView {
-    UIView* v = self.secondBarView;
     
-    [self setSecondBarView:v];
+    [self.topViewController secondBarDidHide:self.secondBarViewHeight];
 }
 
+//- (void) removeSecondBarView {
+//    [self.secondBarView removeFromSuperview];
+//}
+//
+//- (void) resetSecondBarView {
+//    UIView* v = self.secondBarView;
+//    
+//    [self setSecondBarView:v];
+//}
+
+- (BOOL) isSecondBarViewShowing {
+    if (self.secondBarView == nil) {
+        return false;
+    }
+    
+    return self.secondBarView.frame.origin.y == 0;
+}
 @end
 
 /**
  *
  */
 @implementation UIViewController(SecondBarView)
+//- (void) secondBarWillShow:(CGFloat) height; {
+//    
+//}
+
 - (void) secondBarDidShow:(CGFloat) height; {
     
 }
+
+//- (void) secondBarWillHide:(CGFloat) height; {
+//    
+//}
 
 - (void) secondBarDidHide:(CGFloat) height; {
     
